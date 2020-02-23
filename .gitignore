@@ -1,8 +1,4 @@
 *.py[co]
-
-data/msr
-data
-
 # Packages
 *.egg
 *.egg-info
