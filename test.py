@@ -54,3 +54,35 @@ bn_pos = BN_CRF_POS()
 model_path = "F:/MSCS/Personal/Python/TextMiningWithPython/model/bn_pos_model.pkl"
 res = bn_pos.pos_tag(model_path, "প্রধানমন্ত্রী শেখ হাসিনা বলেছেন অর্থনৈতিকভাবে বাংলাদেশ এখন সিঙ্গাপুরের চেয়েও শক্তিশালী")
 print(res)
+
+#ngrams
+from nltk import ngrams
+text = "প্রধানমন্ত্রী শেখ হাসিনা বলেছেন অর্থনৈতিকভাবে বাংলাদেশ এখন সিঙ্গাপুরের চেয়েও শক্তিশালী"
+n = 2
+bigrams = ngrams(text.split(),n)
+for grams in bigrams:
+    print(grams)
+
+#ngrams another approach by chunk and rule
+
+from nltk import RegexpParser
+chunktriGram = r"""NC: {<NC><NC><NC>}"""
+chunkparsertrigram = RegexpParser(chunktriGram)
+
+chunked = chunkparsertrigram.parse(res)
+
+for subtree in chunked.subtrees():
+    if subtree.label() == 'NC':
+        leaves = subtree.leaves()
+        wholetext=""
+        for leaftext in leaves:
+            wholetext = wholetext+leaftext[0]+" "
+        print(wholetext)
+
+from nltk.corpus import inaugural
+from gensim.models.phrases import Phraser, Phrases
+
+all_words = [inaugural.words(x) for x in inaugural.fileids()]
+phrases = Phrases(all_words,min_count=100,threshold=10)
+bigram = Phraser(phrases)
+print(bigram["Finest","People","in","United","States"])
