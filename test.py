@@ -86,3 +86,20 @@ all_words = [inaugural.words(x) for x in inaugural.fileids()]
 phrases = Phrases(all_words,min_count=100,threshold=10)
 bigram = Phraser(phrases)
 print(bigram["Finest","People","in","United","States"])
+
+
+# Named Entity Recognition
+from nltk import word_tokenize, pos_tag, ne_chunk
+sentence ="Mark is working at the South Africa offices at Google"
+ne_tree = ne_chunk(pos_tag(word_tokenize(sentence)))
+print(ne_tree)
+
+from nltk.chunk import conlltags2tree, tree2conlltags
+tagged_Sentece = tree2conlltags(ne_tree)
+print(tagged_Sentece)
+
+import spacy
+model_load = spacy.load("en_core_web_sm")
+
+doc = model_load("Mark is working at the South Africa offices at Google")
+print([(x.text,x.label_) for x in doc.ents])
