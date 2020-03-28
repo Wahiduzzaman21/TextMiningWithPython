@@ -74,13 +74,13 @@ x_clean_data_test =["".join(y) for y in x_cleaned_stopword_punctuation_pronoun_n
 # Feature representation
 vec = TfidfVectorizer()
 x_train_vec = vec.fit_transform(x_clean_data)
-x_test_vec = vec.fit_transform(x_clean_data_test)
 
 # Apply algorithm
 clf = LinearSVC(C=1, multi_class='ovr',dual=True)
 clf.fit(x_train_vec,y_train)
 
 # Validation
+x_test_vec = vec.transform(x_clean_data_test)
 y_predict = clf.predict(x_test_vec)
 
 print("Accuracy: ",accuracy_score(y_pred=y_predict,y_true=y_test))
