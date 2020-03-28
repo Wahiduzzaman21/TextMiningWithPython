@@ -13,4 +13,3 @@ tokens = nltk.word_tokenize(sentence, 'english', False)
 print(nltk.pos_tag(tokens))
 # POS tagging with Spacy (Universal Dependency Tagset)
 print([(x.text, x.pos_)for x in doc])
-

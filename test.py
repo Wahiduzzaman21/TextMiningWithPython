@@ -103,3 +103,9 @@ model_load = spacy.load("en_core_web_sm")
 
 doc = model_load("Mark is working at the South Africa offices at Google")
 print([(x.text,x.label_) for x in doc.ents])
+
+print("lemma:")
+print([x.lemma_ for x in doc])
+import io
+with io.open("output.txt", "w+", encoding="utf-8") as f:
+    f.write(wholetext)
