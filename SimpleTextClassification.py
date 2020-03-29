@@ -15,18 +15,36 @@ import seaborn as sns
 newsgroups_train = fetch_20newsgroups(subset='train')
 newsgroups_test = fetch_20newsgroups(subset='test')
 
-x_train= newsgroups_train.data
-y_train = newsgroups_train.target
+x_train_all= newsgroups_train.data
+y_train_all = newsgroups_train.target
 
-x_test = newsgroups_test.data
-y_test = newsgroups_test.target
+x_test_all = newsgroups_test.data
+y_test_all = newsgroups_test.target
 
+print(len(x_train_all))
+print(len(x_test_all))
 # pre processing
+
+y_train=[]
+y_test=[]
+for lp in range(11314):
+    y_train.append(y_train_all[lp])
+
+for lp in range(7532):
+    y_test.append(y_test_all[lp])
 
 # lemmatization
 nlp = spacy.load("en_core_web_sm")
-x_train_nlp = [[x.lemma_ for x in nlp(y)]for y in x_train]
-x_test_nlp = [[x.lemma_ for x in nlp(y)]for y in x_test]
+x_train_nlp=[]
+x_test_nlp = []
+
+for lp in range(11314):
+    # for y in x_train:
+        x_train_nlp.append([x.lemma_ for x in nlp(x_train_all[lp])])
+
+for lp in range(7532):
+    #for y in x_test:
+     x_test_nlp.append([x.lemma_ for x in nlp(x_test_all[lp])])
 
 # remove stop words
 stop_en = stopwords.words("English")
@@ -49,7 +67,7 @@ for x in x_cleaned_stopword_test:
     x_cleaned_stopword_punctuation_test.append([y for y in x if not y in list(string.punctuation)])
 
 # remove pronoun
-useless = ["-PROUN-"]
+useless = ["-PRON-"]
 x_cleaned_stopword_punctuation_pronoun = []
 for x in x_cleaned_stopword_punctuation:
     x_cleaned_stopword_punctuation_pronoun.append([y for y in x if not y in useless])
@@ -68,8 +86,9 @@ x_cleaned_stopword_punctuation_pronoun_newline_dash_test = []
 for x in x_cleaned_stopword_punctuation_pronoun_test:
     x_cleaned_stopword_punctuation_pronoun_newline_dash_test.append([y for y in x if not ("--" in y or '\n' in y)])
 
-x_clean_data =["".join(y) for y in x_cleaned_stopword_punctuation_pronoun_newline_dash]
-x_clean_data_test =["".join(y) for y in x_cleaned_stopword_punctuation_pronoun_newline_dash_test]
+x_clean_data =[" ".join(y) for y in x_cleaned_stopword_punctuation_pronoun_newline_dash]
+x_clean_data_test =[" ".join(y) for y in x_cleaned_stopword_punctuation_pronoun_newline_dash_test]
+
 
 # Feature representation
 vec = TfidfVectorizer()
@@ -92,8 +111,8 @@ print("F1: ",f1_score(y_pred=y_predict,y_true=y_test,average="micro"))
 def showtop10(classifier,vectorizer,categories):
     feature_names=np.asarray(vectorizer.get_feature_names())
     for i,category in enumerate(categories):
-        top10=np.argsort(classifier.coef_[i])[-10]
-        print("%s: %s" % (category," ".join(feature_names[top10])))
+        top10=np.argsort(classifier.coef_[i])[-10:]
+        print("%s: %s" % (category,",".join(feature_names[top10])))
 
 showtop10(clf,vec,newsgroups_train.target_names)
 
