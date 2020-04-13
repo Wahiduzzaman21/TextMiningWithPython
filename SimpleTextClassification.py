@@ -27,10 +27,10 @@ print(len(x_test_all))
 
 y_train=[]
 y_test=[]
-for lp in range(11314):
+for lp in range(100):
     y_train.append(y_train_all[lp])
 
-for lp in range(7532):
+for lp in range(100):
     y_test.append(y_test_all[lp])
 
 # lemmatization
@@ -38,11 +38,11 @@ nlp = spacy.load("en_core_web_sm")
 x_train_nlp=[]
 x_test_nlp = []
 
-for lp in range(11314):
+for lp in range(100):
     # for y in x_train:
         x_train_nlp.append([x.lemma_ for x in nlp(x_train_all[lp])])
 
-for lp in range(7532):
+for lp in range(100):
     #for y in x_test:
      x_test_nlp.append([x.lemma_ for x in nlp(x_test_all[lp])])
 
@@ -93,7 +93,6 @@ x_clean_data_test =[" ".join(y) for y in x_cleaned_stopword_punctuation_pronoun_
 # Feature representation
 vec = TfidfVectorizer()
 x_train_vec = vec.fit_transform(x_clean_data)
-
 # Apply algorithm
 clf = LinearSVC(C=1, multi_class='ovr',dual=True)
 clf.fit(x_train_vec,y_train)
