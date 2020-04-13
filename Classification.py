@@ -11,6 +11,7 @@ for ind in df.index:
         col_list.append(i)
 
 col_list = list(dict.fromkeys(col_list))
+print("Number of unique tags: ",len(col_list))
 
 target =[]
 for index in df.index:
@@ -94,8 +95,7 @@ y_all = target
 
 total_content = x_all
 total_target = y_all
-print(len(total_content))
-print(len(total_target))
+
 total_content =[" ".join(y) for y in total_content]
 
 from sklearn.feature_extraction.text import CountVectorizer
@@ -105,6 +105,8 @@ from sklearn.feature_extraction.text import TfidfTransformer
 df1 = pd.DataFrame(total_content,columns = ['content'])
 df2 = pd.DataFrame(dfonehotencoding)
 df = df1.join(df2)
+
+print("Number of Articles: ",len(df))
 
 x=df['content'].values
 y=df.iloc[:,1:-1].values
