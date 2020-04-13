@@ -119,7 +119,6 @@ tfidfart=TfidfTransformer().fit(article)
 art=DataFrame(tfidfart.transform(article).todense())
 x=pd.concat([art],axis=1)
 
-# using binary relevance
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import f1_score,recall_score,precision_score
 from skmultilearn.adapt import MLkNN
