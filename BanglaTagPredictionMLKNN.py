@@ -122,11 +122,20 @@ x=pd.concat([art],axis=1)
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import f1_score,recall_score,precision_score
 from skmultilearn.adapt import MLkNN
-classifier = MLkNN(k=20)
-classifier.fit(x, y)
-# predict
-predictions = classifier.predict(x)
-print("Accuracy KNN: ",accuracy_score(y,predictions))
-print("Precision(Micro) KNN: ",precision_score(y,predictions,average='micro'))
-print("Recall(Micro) KNN: ",recall_score(y,predictions,average='micro'))
-print("F1 Score(Micro) KNN: ",f1_score(y,predictions,average='micro'))
+from sklearn.model_selection import train_test_split
+
+# Split Train and Test Data
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=0)
+
+# Fit into model
+classifier = MLkNN(k=44)
+classifier.fit(X_train, y_train)
+
+# Predict the result
+predictions = classifier.predict(X_test)
+
+# Measure Accuracy, Precision, Recall and F1 Score
+print("Accuracy KNN: ",accuracy_score(y_test,predictions))
+print("Precision(Micro) KNN: ",precision_score(y_test,predictions,average='micro'))
+print("Recall(Micro) KNN: ",recall_score(y_test,predictions,average='micro'))
+print("F1 Score(Micro) KNN: ",f1_score(y_test,predictions,average='micro'))
