@@ -46,7 +46,7 @@ warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
 
 from bnlp.bengali_pos import BN_CRF_POS
 bn_pos = BN_CRF_POS()
-model_path = "F:/MSCS/Personal/Python/TextMiningWithPython/model/bn_pos_model.pkl"
+model_path = "./model/bn_pos_model.pkl"
 all_content=[]
 
 for index in df.index:
