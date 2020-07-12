@@ -1,3 +1,0 @@
-Stats for dataset nltr
-Number of lines: 2988
-Number of words: 41700
