@@ -1,0 +1,54 @@
+#############################################################################################
+Total Categories: 6
+Category Name: Sports, Economy, Entertainment, Technology, Bangladesh, International
+Total Documents : 419286
+Total Tags: 3958
+##############################################################################################
+
+##################################################
+Details of Sports Category - 
+Number of document : 29322
+Number of Unique tags : 168
+Data Cleaning Time:
+Trainng and Testing Time:
+#####################################################
+
+##################################################
+Details of International Category - 
+Number of document : 36966
+Number of Unique tags : 546
+Data Cleaning Time:
+Trainng and Testing Time:
+#####################################################
+
+##################################################
+Details of Bangladesh Category - 
+Number of document : 280546
+Number of Unique tags : 1999
+Data Cleaning Time:
+Trainng and Testing Time: 
+#####################################################
+
+##################################################
+Details of Economy Category - 
+Number of document : 20792
+Number of Unique tags : 519
+Data Cleaning Time:
+Trainng and Testing Time:
+#####################################################
+
+##################################################
+Details of Entertainment Category - 
+Number of document : 36635
+Number of Unique tags : 335
+Data Cleaning Time:
+Trainng and Testing Time: 
+#####################################################
+
+##################################################
+Details of Technology Category - 
+Number of document : 15025
+Number of Unique tags : 391
+Data Cleaning Time:
+Trainng and Testing Time:
+#####################################################
