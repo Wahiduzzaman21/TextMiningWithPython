@@ -34,4 +34,3 @@ data/content/entertainment
 data/content/technology
 model/CountVectorizer.pkl
 model/TrainedModel
-config.csv
