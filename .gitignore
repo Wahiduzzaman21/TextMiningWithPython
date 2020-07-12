@@ -26,3 +26,11 @@ pip-log.txt
 .mr.developer.cfg
 
 .idea
+data/content/bangladesh
+data/content/economy
+data/content/international
+data/content/sports
+data/content/entertainment
+data/content/technology
+model/CountVectorizer.pkl
+model/TrainedModel
