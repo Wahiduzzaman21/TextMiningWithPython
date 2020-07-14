@@ -5,7 +5,7 @@ import pickle
 
 print("Reading Config Started...............")
 
-configdf=pd.read_csv("config.csv")
+configdf = pd.read_csv("config.csv")
 
 if configdf['TrainData'][0] == 'Sports':
     df = pd.read_csv("./data/content/sports/SportsCleanContentForMultilabelClassification.csv", encoding="utf-8-sig")
@@ -22,29 +22,35 @@ elif configdf['TrainData'][0] == 'Economy':
 elif configdf['TrainData'][0] == 'Entertainment':
     df = pd.read_csv("./data/content/entertainment/EntertainmentCleanContentForMultilabelClassification.csv", encoding="utf-8-sig")
     tag_list_df = pd.read_csv("./data/uniquetags/EntertainmentTag.csv", encoding="utf-8-sig")
-else:
+elif configdf['TrainData'][0] == 'Technology':
     df = pd.read_csv("./data/content/technology/TechnologyCleanContentForMultilabelClassification.csv", encoding="utf-8-sig")
     tag_list_df = pd.read_csv("./data/uniquetags/TechnologyTag.csv", encoding="utf-8-sig")
+else:
+    print("Invalid Category")
 
 print("Reading Config Completed...............Target Dataset:"+configdf['TrainData'][0])
 
 print("Word embedding started.................")
 
 # Embedding Text
+
+#count vectorizer
 x = df['content'].values
 countvectorizer_pkl_model = open('./model/CountVectorizer.pkl', 'rb')
 countvectorizer_model = pickle.load(countvectorizer_pkl_model)
-
 article = DataFrame(countvectorizer_model.transform(x).todense(), columns=countvectorizer_model.get_feature_names())
-Tfidfarticle = TfidfTransformer().fit(article)
-art = DataFrame(Tfidfarticle.transform(article).todense())
+
+#tfidftransformer
+tfidftransformer_pkl_model = open('./model/TfIdfTransformer.pkl', 'rb')
+tfidftransformer_model = pickle.load(tfidftransformer_pkl_model)
+art = DataFrame(tfidftransformer_model.transform(article).todense())
 
 print("Word embedding completed.................")
 
 # Ready Test Data
 
-x = pd.concat([art],axis=1)
-y = df.iloc[:,:-1].values
+x = pd.concat([art],axis=0)
+y = df.iloc[:, :-1].values
 
 
 # Train and Save Model
@@ -88,7 +94,9 @@ elif configdf['TrainData'][0] == 'Economy':
     pickle.dump(classifier, open("./model/TrainedModel/MultilabelClassifier/MLKNN/EconomyMultilabelModel.pkl", "wb"))
 elif configdf['TrainData'][0] == 'Entertainment':
     pickle.dump(classifier, open("./model/TrainedModel/MultilabelClassifier/MLKNN/EntertainmentMultilabelModel.pkl", "wb"))
-else:
+elif configdf['TrainData'][0] == 'Technology':
     pickle.dump(classifier, open("./model/TrainedModel/MultilabelClassifier/MLKNN/TechnologyMultilabelModel.pkl", "wb"))
+else:
+    print("Invalid Category")
 
 print("Pickle Dumping Completed.............")

@@ -2,6 +2,10 @@ import pandas as pd
 import re
 import warnings
 warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
+from banglakit import lemmatizer as lem
+from banglakit.lemmatizer import BengaliLemmatizer
+from bnlp.bengali_pos import BN_CRF_POS
+
 
 def extractuniquetags(df):
     tag_list = []
@@ -15,8 +19,6 @@ def extractuniquetags(df):
     tag_list = list(dict.fromkeys(tag_list))
 
     return tag_list
-
-
 
 def performhotencoding(df,tag_list):
     target = []
@@ -32,7 +34,7 @@ def performhotencoding(df,tag_list):
 
     dfonehotencoding = pd.DataFrame(target, columns=tag_list)
 
-    return  dfonehotencoding, target
+    return  dfonehotencoding
 
 
 def removepunctuation(df):
@@ -52,8 +54,8 @@ def removepunctuation(df):
     return df
 
 
-def postagging(df):
-    from bnlp.bengali_pos import BN_CRF_POS
+def postaggingandlemmetization(df):
+    lemmatizer = BengaliLemmatizer()
     bn_pos = BN_CRF_POS()
     model_path = "./model/bn_pos_model.pkl"
     all_content = []
@@ -64,12 +66,15 @@ def postagging(df):
         each_text = []
         for x in content:
             if x[1] == 'NC':
-                each_text.append(x[0])
+                text= lemmatizer.lemmatize(x[0], pos=lem.POS_NOUN)
+                each_text.append(text)
             elif x[1] == 'NP':
-                each_text.append(x[0])
+                text = lemmatizer.lemmatize(x[0], pos=lem.POS_NOUN)
+                each_text.append(text)
         all_content.append(each_text)
 
     return all_content
+
 
 def removestopword(all_content):
     with open("./data/stopwords.txt", encoding="utf-8") as file_in:
@@ -88,7 +93,7 @@ def removestopword(all_content):
 
     return cleantextwithoutstopword
 
-def removecharacterenglish(cleantextwithoutstopword):
+def removespecialandrenglishchracter(cleantextwithoutstopword):
     with open("./data/specialcharacter.txt", encoding="utf-8") as file_in:
         specialcharacter = []
         for line in file_in:

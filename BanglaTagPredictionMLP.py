@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv("./data/content/sports/sports_2013.csv",encoding="utf-8-sig")
+df = pd.read_csv("./data/content/sports/Sports_2019.csv",encoding="utf-8-sig")
 
 col_list=[]
 
@@ -61,7 +61,7 @@ for index in df.index:
    all_content.append(each_text)
 
 # remove stop word
-with open("stopwords.txt",encoding="utf-8") as file_in:
+with open("./data/stopwords.txt",encoding="utf-8") as file_in:
     stopword = []
     for line in file_in:
         stopword.append(line.rstrip("\n"))
@@ -76,7 +76,7 @@ for x in all_content:
     cleantextwithoutstopword.append(text)
 
 # remove english special chracter
-with open("specialcharacter.txt",encoding="utf-8") as file_in:
+with open("./data/specialcharacter.txt",encoding="utf-8") as file_in:
     specialcharacter = []
     for line in file_in:
         specialcharacter.append(line.rstrip("\n"))
@@ -99,6 +99,7 @@ total_target = y_all
 total_content =[" ".join(y) for y in total_content]
 
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from pandas import DataFrame
 from sklearn.feature_extraction.text import TfidfTransformer
 
@@ -110,9 +111,10 @@ print("Number of Articles: ",len(df))
 
 x=df['content'].values
 y=df.iloc[:,1:-1].values
-
 cvArticle=CountVectorizer().fit(x)
 article=DataFrame(cvArticle.transform(x).todense(),columns=cvArticle.get_feature_names())
+article.to_csv("./data/vectordata/countvectordata1.csv",encoding="utf-8-sig",index=False)
+
 x=pd.concat([article],axis=1)
 
 tfidfart=TfidfTransformer().fit(article)
@@ -125,19 +127,25 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import f1_score,recall_score,precision_score
+from numba import jit, cuda
 
-# Split train and test data
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=0)
 
-# Fit into model
-classifier = MLPClassifier(hidden_layer_sizes=(100, 100, 100), max_iter=5000)
-classifier.fit(X_train, y_train)
+def samplefunction ():
+    # Split train and test data
+    # Fit into model
+    classifier = MLPClassifier(hidden_layer_sizes=(100, 100, 100), max_iter=5000)
+    classifier.fit(X_train, y_train)
 
-# Predict the result
-predictions = classifier.predict(X_test)
+    # Predict the result
+    predictions = classifier.predict(X_test)
 
-# Measure Accuracy, Precision, Recall, F1 Score
-print("Accuracy MLP: ",accuracy_score(y_test,predictions))
-print("Precision(Micro) MLP: ",precision_score(y_test,predictions,average='micro'))
-print("Recall(Micro) MLP: ",recall_score(y_test,predictions,average='micro'))
-print("F1 Score(Micro) MLP: ",f1_score(y_test,predictions,average='micro'))
+    # Measure Accuracy, Precision, Recall, F1 Score
+    print("Accuracy MLP: ", accuracy_score(y_test, predictions))
+    print("Precision(Micro) MLP: ", precision_score(y_test, predictions, average='micro'))
+    print("Recall(Micro) MLP: ", recall_score(y_test, predictions, average='micro'))
+    print("F1 Score(Micro) MLP: ", f1_score(y_test, predictions, average='micro'))
+
+
+
+

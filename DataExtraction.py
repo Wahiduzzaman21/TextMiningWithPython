@@ -34,8 +34,11 @@ elif configdf['TrainData'][0] == 'Economy':
     sectionname = 'economy'
 elif configdf['TrainData'][0] == 'Entertainment':
     sectionname = 'entertainment'
-else:
+elif configdf['TrainData'][0] == 'Technology':
     sectionname = 'technology'
+else:
+    print("Invalid Category")
+
 
 print("Config Reading Completed...............Target Dataset:", sectionname)
 
@@ -67,8 +70,11 @@ elif configdf['TrainData'][0] == 'Economy':
     df.to_csv("./data/content/economy/AllEconomyContent.csv",encoding="utf-8-sig",index=False)
 elif configdf['TrainData'][0] == 'Entertainment':
     df.to_csv("./data/content/entertainment/AllEntertainmentContent.csv",encoding="utf-8-sig",index=False)
-else:
+elif configdf['TrainData'][0] == 'Technology':
     df.to_csv("./data/content/technology/AllTechnologyContent.csv",encoding="utf-8-sig",index=False)
+else:
+    print("Invalid Category")
+
 
 print("Dumping Documents in CSV File Completed......................")
 

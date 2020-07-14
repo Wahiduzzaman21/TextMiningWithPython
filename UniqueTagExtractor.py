@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 from DataProcessing import extractuniquetags
 
 print("Reading Config Started.........")
@@ -16,8 +15,10 @@ elif configdf['TrainData'][0] == 'Economy':
     df = pd.read_csv("./data/content/economy/AllEconomyContent.csv", encoding="utf-8-sig")
 elif configdf['TrainData'][0] == 'Entertainment':
     df = pd.read_csv("./data/content/entertainment/AllEntertainmentContent.csv", encoding="utf-8-sig")
-else:
+elif configdf['TrainData'][0] == 'Technology':
     df = pd.read_csv("./data/content/technology/AllTechnologyContent.csv", encoding="utf-8-sig")
+else:
+    print("Invalid Category")
 
 print("Reading Config Completed.........Target Dataset:"+configdf['TrainData'][0])
 
@@ -37,9 +38,10 @@ elif configdf['TrainData'][0] == 'Economy':
     dfcol.to_csv("./data/uniquetags/EconomyTag.csv",encoding="utf-8-sig",index=False)
 elif configdf['TrainData'][0] == 'Entertainment':
     dfcol.to_csv("./data/uniquetags/EntertainmentTag.csv",encoding="utf-8-sig",index=False)
-else:
+elif configdf['TrainData'][0] == 'Technology':
     dfcol.to_csv("./data/uniquetags/TechnologyTag.csv",encoding="utf-8-sig",index=False)
-
+else :
+    print("Invalid Category")
 
 print("Dumping Tags in File Completed.........")
 print("Total number of tags:", dfcol.shape[0])

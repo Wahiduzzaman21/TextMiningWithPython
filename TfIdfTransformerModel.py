@@ -7,6 +7,8 @@ from  DataProcessing import removespecialandrenglishchracter
 from DataProcessing import joinseparatedtext
 import pickle
 from pandas import DataFrame
+from sklearn.feature_extraction.text import TfidfTransformer
+
 import numpy as np
 from itertools import chain
 
@@ -20,9 +22,6 @@ clean_text_v2 = removestopword(clean_text_v1)
 clean_text_v3 = removespecialandrenglishchracter(clean_text_v2)
 total_content = joinseparatedtext(clean_text_v3)
 
-vocab_list = [j for sub in clean_text_v3 for j in sub]
-
-vocab_list = list(np.unique(list(chain(vocab_list))))
 
 print("Data Pre Processing Completed...................................")
 
@@ -31,19 +30,24 @@ print("Model Fitting Started...........................................")
 df1 = pd.DataFrame(total_content, columns=['content'])
 x = df1['content'].values
 
-model = CountVectorizer(vocabulary=vocab_list).fit(x)
+countvectorizer_pkl_model = open('./model/CountVectorizer.pkl', 'rb')
+countvectorizer_model = pickle.load(countvectorizer_pkl_model)
+
+article = DataFrame(countvectorizer_model.transform(x).todense(), columns=countvectorizer_model.get_feature_names())
+
+Tfidfarticle_model = TfidfTransformer().fit(article)
 
 print("Model Fitting Completed...........................................")
 
 print("Pickle File Dumping Started...........................................")
 
-pickle.dump(model, open("./model/CountVectorizer.pkl", "wb"))
+pickle.dump(Tfidfarticle_model, open("./model/TfIdfTransformer.pkl", "wb"))
 
 print("Pickle File Dumping Completed...........................................")
 
 print("Article Shape Checking.....................")
-
-article = DataFrame(model.transform(x).todense(), columns=model.get_feature_names())
-print(article.shape)
+art = DataFrame(Tfidfarticle_model.transform(article).todense())
+print(art.shape)
 
 print("Article Shape Checking Completed.....................")
+
