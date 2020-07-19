@@ -54,7 +54,7 @@ def removepunctuation(df):
     return df
 
 
-def postaggingandlemmetization(df):
+def postagging(df):
     lemmatizer = BengaliLemmatizer()
     bn_pos = BN_CRF_POS()
     model_path = "./model/bn_pos_model.pkl"
@@ -66,11 +66,11 @@ def postaggingandlemmetization(df):
         each_text = []
         for x in content:
             if x[1] == 'NC':
-                text= lemmatizer.lemmatize(x[0], pos=lem.POS_NOUN)
-                each_text.append(text)
+                #text= lemmatizer.lemmatize(x[0], pos=lem.POS_NOUN)
+                each_text.append(x[0])
             elif x[1] == 'NP':
-                text = lemmatizer.lemmatize(x[0], pos=lem.POS_NOUN)
-                each_text.append(text)
+                #text = lemmatizer.lemmatize(x[0], pos=lem.POS_PROPN)
+                each_text.append(x[0])
         all_content.append(each_text)
 
     return all_content

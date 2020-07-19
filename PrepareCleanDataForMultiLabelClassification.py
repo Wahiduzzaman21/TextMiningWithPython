@@ -2,10 +2,13 @@ import pandas as pd
 from DataProcessing import extractuniquetags
 from DataProcessing import performhotencoding
 from DataProcessing import removepunctuation
-from DataProcessing import postaggingandlemmetization
+from DataProcessing import postagging
 from DataProcessing import removestopword
 from  DataProcessing import removespecialandrenglishchracter
 from DataProcessing import joinseparatedtext
+from timeit import default_timer as timer
+import numpy as np
+
 
 print("Reading Config Started.........")
 
@@ -34,10 +37,14 @@ print("Data Cleaning Started.........")
 tag_list = extractuniquetags(df)
 dfonehotencoding = performhotencoding(df, tag_list)
 
+start = timer()
+
 df = removepunctuation(df)
-clean_text_v1 = postaggingandlemmetization(df)
+clean_text_v1 = postagging(df)
 clean_text_v2 = removestopword(clean_text_v1)
 clean_text_v3 = removespecialandrenglishchracter(clean_text_v2)
+
+print("Time to Clean the data:", timer()-start)
 
 total_content = joinseparatedtext(clean_text_v3)
 
@@ -45,6 +52,9 @@ df1 = pd.DataFrame(total_content, columns=['content'])
 df2 = pd.DataFrame(dfonehotencoding)
 df = df2.join(df1)
 
+df.replace("", np.nan, inplace=True)
+df['content'] = df['content'].fillna('contentblank')
+df = df[~df['content'].str.contains("contentblank")]
 print("Data Cleaning Completed.........")
 
 print("Writing Clean Data in File Started................")

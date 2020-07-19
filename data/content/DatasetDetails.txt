@@ -1,54 +1,60 @@
 #############################################################################################
 Total Categories: 6
 Category Name: Sports, Economy, Entertainment, Technology, Bangladesh, International
-Total Documents : 419286
-Total Tags: 3958
+Total Documents : 386839
+Total Tags: 3959
 ##############################################################################################
 
 ##################################################
 Details of Sports Category - 
-Number of document : 29322
+Number of document : 58772
 Number of Unique tags : 168
-Data Cleaning Time:
-Trainng and Testing Time:
+Data Cleaning Time: 1129
+Trainng Time:
 #####################################################
 
 ##################################################
 Details of International Category - 
-Number of document : 36966
+Number of document : 35244
 Number of Unique tags : 546
-Data Cleaning Time:
-Trainng and Testing Time:
+Data Cleaning Time: 579
+Trainng Time:
 #####################################################
 
 ##################################################
 Details of Bangladesh Category - 
-Number of document : 280546
-Number of Unique tags : 1999
-Data Cleaning Time:
-Trainng and Testing Time: 
+Number of document : 254564
+Number of Unique tags : 2001
+Data Cleaning Time: 9170
+Trainng Time: 
 #####################################################
 
 ##################################################
 Details of Economy Category - 
-Number of document : 20792
+Number of document : 18854
 Number of Unique tags : 519
-Data Cleaning Time:
-Trainng and Testing Time:
+Data Cleaning Time: 319
+Trainng Time:
 #####################################################
 
 ##################################################
 Details of Entertainment Category - 
-Number of document : 36635
-Number of Unique tags : 335
-Data Cleaning Time:
-Trainng and Testing Time: 
+Number of document : 35074
+Number of Unique tags : 334
+Data Cleaning Time: 579
+Trainng Time: 
 #####################################################
 
 ##################################################
 Details of Technology Category - 
-Number of document : 15025
+Number of document : 13781
 Number of Unique tags : 391
-Data Cleaning Time:
-Trainng and Testing Time:
+Data Cleaning Time: 221
+Trainng Time:
+#####################################################
+
+Vector Size: 47159
+141477000
+763692000
+1160517000
 #####################################################

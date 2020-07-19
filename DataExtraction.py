@@ -45,33 +45,37 @@ print("Config Reading Completed...............Target Dataset:", sectionname)
 
 df = df.loc[df['section'] == sectionname]
 df.replace("", np.nan, inplace=True)
+df.replace(".", np.nan, inplace=True)
+
 
 
 df['tags'] = df['tags'].fillna('ফাঁকা')
 
 df['content'] = df['content'].fillna('contentblank')
 
-if configdf['TrainData'][0] == 'Sports':
-    df = df[df['tags'].str.contains("খেলা")]
-else:
-    df = df[~df['content'].str.contains("ফাঁকা")]
+df = df[~df['tags'].str.contains("ফাঁকা")]
 
 df = df[~df['content'].str.contains("contentblank")]
+
+print("Checking any null values", df['content'].isnull().values.any())
+
+print("Checking any null values", df['tags'].isnull().values.any())
+
 
 print("Dumping Documents in CSV File Started......................")
 
 if configdf['TrainData'][0] == 'Sports':
-    df.to_csv("./data/content/sports/AllSportsContent.csv",encoding="utf-8-sig",index=False)
+    df.to_csv("./data/content/sports/AllSportsContent.csv", encoding="utf-8-sig", index=False)
 elif configdf['TrainData'][0] == 'International':
-    df.to_csv("./data/content/international/AllInternationalContent.csv",encoding="utf-8-sig",index=False)
+    df.to_csv("./data/content/international/AllInternationalContent.csv", encoding="utf-8-sig", index=False)
 elif configdf['TrainData'][0] == 'Bangladesh':
-    df.to_csv("./data/content/bangladesh/AllBangladeshContent.csv",encoding="utf-8-sig",index=False)
+    df.to_csv("./data/content/bangladesh/AllBangladeshContent.csv", encoding="utf-8-sig", index=False)
 elif configdf['TrainData'][0] == 'Economy':
-    df.to_csv("./data/content/economy/AllEconomyContent.csv",encoding="utf-8-sig",index=False)
+    df.to_csv("./data/content/economy/AllEconomyContent.csv", encoding="utf-8-sig", index=False)
 elif configdf['TrainData'][0] == 'Entertainment':
-    df.to_csv("./data/content/entertainment/AllEntertainmentContent.csv",encoding="utf-8-sig",index=False)
+    df.to_csv("./data/content/entertainment/AllEntertainmentContent.csv", encoding="utf-8-sig", index=False)
 elif configdf['TrainData'][0] == 'Technology':
-    df.to_csv("./data/content/technology/AllTechnologyContent.csv",encoding="utf-8-sig",index=False)
+    df.to_csv("./data/content/technology/AllTechnologyContent.csv", encoding="utf-8-sig", index=False)
 else:
     print("Invalid Category")
 

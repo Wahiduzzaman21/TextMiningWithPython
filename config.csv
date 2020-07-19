@@ -1,2 +1,2 @@
-TrainData,TotalSportsTags,TotalInternationalTags,TotalBangladeshTags,TotalEconomyTags,TotalEntertainmentTags,TotalTechnologyTags
-Sports,168,546,1999,519,335,391
+TrainData,VectorName,Vectorsize,TotalSportsTags,TotalInternationalTags,TotalBangladeshTags,TotalEconomyTags,TotalEntertainmentTags,TotalTechnologyTags
+Sports,CountVectorizer,3000,511,546,2001,519,334,391

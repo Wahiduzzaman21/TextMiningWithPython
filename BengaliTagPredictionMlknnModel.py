@@ -1,7 +1,14 @@
 import pandas as pd
 from pandas import DataFrame
-from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.metrics import accuracy_score, make_scorer
+from sklearn.metrics import f1_score, recall_score, precision_score
+from skmultilearn.adapt import MLkNN
+from sklearn.model_selection import train_test_split
 import pickle
+from timeit import default_timer as timer
+from sklearn.model_selection import GridSearchCV
+import math
+
 
 print("Reading Config Started...............")
 
@@ -36,67 +43,67 @@ print("Word embedding started.................")
 
 #count vectorizer
 x = df['content'].values
-countvectorizer_pkl_model = open('./model/CountVectorizer.pkl', 'rb')
+
+vectorizer_model_load_path = "./model/TrainedModel/"+configdf['VectorName'][0]+"/"+configdf['TrainData'][0]+"/"\
+                             +str(configdf['Vectorsize'][0])+"/"+configdf['VectorName'][0]+".pkl"
+print("Loaded Vectorizer Model:", vectorizer_model_load_path)
+countvectorizer_pkl_model = open(vectorizer_model_load_path, 'rb')
 countvectorizer_model = pickle.load(countvectorizer_pkl_model)
 article = DataFrame(countvectorizer_model.transform(x).todense(), columns=countvectorizer_model.get_feature_names())
+# tfidftransformer
 
-#tfidftransformer
-tfidftransformer_pkl_model = open('./model/TfIdfTransformer.pkl', 'rb')
+vector_transformer_model_load_path = "./model/TrainedModel/TfIdfTransformer/"+configdf['VectorName'][0]+\
+                      "/"+configdf['TrainData'][0]+"/"+str(configdf['Vectorsize'][0])+"/"+"TfIdfTransformer.pkl"
+
+print("Loaded Vector Transformer Model:", vector_transformer_model_load_path)
+tfidftransformer_pkl_model = open(vector_transformer_model_load_path, 'rb')
 tfidftransformer_model = pickle.load(tfidftransformer_pkl_model)
 art = DataFrame(tfidftransformer_model.transform(article).todense())
+
 
 print("Word embedding completed.................")
 
 # Ready Test Data
 
-x = pd.concat([art],axis=0)
+x = pd.concat([art], axis=0)
 y = df.iloc[:, :-1].values
-
 
 # Train and Save Model
 
 print("Training Started.............")
 
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import f1_score,recall_score,precision_score
-from skmultilearn.adapt import MLkNN
-from sklearn.model_selection import train_test_split
-import pickle
-
 # Split Train and Test Data
-X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=0)
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42, shuffle=True)
 
 # Fit into model
-tag_list = tag_list_df.shape[0]
-classifier = MLkNN(k=tag_list)
+numofneighbor = int(math.sqrt(X_train.shape[0]))
+print("Number of K:", numofneighbor)
+classifier = MLkNN(k=numofneighbor)
+
+start = timer()
 classifier.fit(X_train, y_train)
+
+print("Classifier Best Score:")
+
+print("Time to train the model:", timer()-start)
 
 # Predict the result
 predictions = classifier.predict(X_test)
 
 # Measure Accuracy, Precision, Recall and F1 Score
-print("Accuracy MLKNN: ",accuracy_score(y_test,predictions))
-print("Precision(Micro) MLKNN: ",precision_score(y_test,predictions,average='micro'))
-print("Recall(Micro) MLKNN: ",recall_score(y_test,predictions,average='micro'))
-print("F1 Score(Micro) MLKNN: ",f1_score(y_test,predictions,average='micro'))
+print("Accuracy MLKNN: ", accuracy_score(y_test, predictions))
+print("Precision(Micro) MLKNN: ", precision_score(y_test, predictions, average='micro'))
+print("Recall(Micro) MLKNN: ", recall_score(y_test, predictions, average='micro'))
+print("F1 Score(Micro) MLKNN: ", f1_score(y_test, predictions, average='micro'))
 
 print("Training Completed.............")
 
 print("Start dumping pickle file...........")
 
-if configdf['TrainData'][0] == 'Sports':
-    pickle.dump(classifier, open("./model/TrainedModel/MultilabelClassifier/MLKNN/SportsMultilabelModel.pkl", "wb"))
-elif configdf['TrainData'][0] == 'International':
-    pickle.dump(classifier, open("./model/TrainedModel/MultilabelClassifier/MLKNN/InternationalMultilabelModel.pkl", "wb"))
-elif configdf['TrainData'][0] == 'Bangladesh':
-    pickle.dump(classifier, open("./model/TrainedModel/MultilabelClassifier/MLKNN/BangladeshMultilabelModel.pkl", "wb"))
-elif configdf['TrainData'][0] == 'Economy':
-    pickle.dump(classifier, open("./model/TrainedModel/MultilabelClassifier/MLKNN/EconomyMultilabelModel.pkl", "wb"))
-elif configdf['TrainData'][0] == 'Entertainment':
-    pickle.dump(classifier, open("./model/TrainedModel/MultilabelClassifier/MLKNN/EntertainmentMultilabelModel.pkl", "wb"))
-elif configdf['TrainData'][0] == 'Technology':
-    pickle.dump(classifier, open("./model/TrainedModel/MultilabelClassifier/MLKNN/TechnologyMultilabelModel.pkl", "wb"))
-else:
-    print("Invalid Category")
+mlclf_model_save_location= "./model/TrainedModel/MultilabelClassifier/MLKNN/"+configdf['VectorName'][0]+\
+                           "/"+configdf['TrainData'][0]+"/"+str(configdf['Vectorsize'][0])+"/"+"MLKNNCLF.pkl"
+
+pickle.dump(classifier, open(mlclf_model_save_location, "wb"))
+
 
 print("Pickle Dumping Completed.............")
