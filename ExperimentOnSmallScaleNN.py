@@ -50,6 +50,8 @@ print("Loaded Vectorizer Model:", vectorizer_model_load_path)
 countvectorizer_pkl_model = open(vectorizer_model_load_path, 'rb')
 countvectorizer_model = pickle.load(countvectorizer_pkl_model)
 article = DataFrame(countvectorizer_model.transform(x).todense(), columns=countvectorizer_model.get_feature_names())
+
+print(article.shape)
 # tfidftransformer
 
 vector_transformer_model_load_path = "./model/TrainedModel/TfIdfTransformer/" + configdf['VectorName'][0] + \
@@ -100,7 +102,7 @@ tf.config.experimental.set_memory_growth(physical_devices[0], True)
 model = tf.keras.Sequential()
 
 model = tf.keras.Sequential()
-model.add(tf.keras.layers.Dense(3000, input_shape=(3000,), trainable=False))
+model.add(tf.keras.layers.Dense(3000, input_shape=(24000,), trainable=False))
 model.add(tf.keras.layers.Dense(9000,activation='relu'))
 model.add(tf.keras.layers.Dense(9000,activation='relu'))
 model.add(tf.keras.layers.Dense(9000,activation='sigmoid'))
@@ -114,7 +116,7 @@ model.compile(optimizer='adam', loss=tf.losses.BinaryCrossentropy(from_logits=Tr
 start = timer()
 # This builds the model for the first time:
 
-model.fit(X_train, y_train, batch_size=128, epochs=500, verbose=1, validation_split=0.1)
+model.fit(X_train, y_train, batch_size=64, epochs=200, verbose=1, validation_split=0.1)
 
 print("Time to train the model:", timer()-start)
 
