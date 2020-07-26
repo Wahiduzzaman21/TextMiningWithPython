@@ -22,6 +22,7 @@ else:
 
 print("Reading Config Completed.........Target Dataset:"+configdf['TrainData'][0])
 
+
 tag_list = extractuniquetags(df)
 
 dfcol = pd.DataFrame(tag_list,columns=['TagName'])

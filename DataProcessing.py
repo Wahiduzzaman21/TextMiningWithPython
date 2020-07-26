@@ -2,10 +2,11 @@ import pandas as pd
 import re
 import warnings
 warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
-from banglakit import lemmatizer as lem
-from banglakit.lemmatizer import BengaliLemmatizer
 from bnlp.bengali_pos import BN_CRF_POS
+from banglakit.lemmatizer import BengaliLemmatizer
+from banglakit import lemmatizer as lem
 
+lemmatizer = BengaliLemmatizer()
 
 def extractuniquetags(df):
     tag_list = []
@@ -55,7 +56,6 @@ def removepunctuation(df):
 
 
 def postagging(df):
-    lemmatizer = BengaliLemmatizer()
     bn_pos = BN_CRF_POS()
     model_path = "./model/bn_pos_model.pkl"
     all_content = []
@@ -66,11 +66,11 @@ def postagging(df):
         each_text = []
         for x in content:
             if x[1] == 'NC':
-                #text= lemmatizer.lemmatize(x[0], pos=lem.POS_NOUN)
-                each_text.append(x[0])
+                text_lemmetize= lemmatizer.lemmatize(word=x[0], pos=lem.POS_NOUN)
+                each_text.append(text_lemmetize)
             elif x[1] == 'NP':
-                #text = lemmatizer.lemmatize(x[0], pos=lem.POS_PROPN)
-                each_text.append(x[0])
+                text_lemmetize = lemmatizer.lemmatize(word=x[0], pos='proper_noun')
+                each_text.append(text_lemmetize)
         all_content.append(each_text)
 
     return all_content

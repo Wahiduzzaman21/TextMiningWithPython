@@ -14,23 +14,23 @@ print("Reading Config Started...............")
 configdf = pd.read_csv("config.csv")
 
 if configdf['TrainData'][0] == 'Sports':
-    df = pd.read_csv("./data/content/sports/SportsCleanContentForMultilabelClassification.csv", encoding="utf-8-sig")
-    tag_list_df = pd.read_csv("./data/uniquetags/SportsTag.csv", encoding="utf-8-sig")
+    df = pd.read_csv("./data/content/sports/SportsCleanContentForMultilabelClassificationSmall.csv", encoding="utf-8-sig")
+    tag_list_df = pd.read_csv("./data/uniquetags/SportsTagSmall.csv", encoding="utf-8-sig")
 elif configdf['TrainData'][0] == 'International':
-    df = pd.read_csv("./data/content/international/InternationalCleanContentForMultilabelClassification.csv", encoding="utf-8-sig")
-    tag_list_df = pd.read_csv("./data/uniquetags/InternationalTag.csv", encoding="utf-8-sig")
+    df = pd.read_csv("./data/content/international/InternationalCleanContentForMultilabelClassificationSmall.csv", encoding="utf-8-sig")
+    tag_list_df = pd.read_csv("./data/uniquetags/InternationalTagSmall.csv", encoding="utf-8-sig")
 elif configdf['TrainData'][0] == 'Bangladesh':
-    df = pd.read_csv("./data/content/bangladesh/BangladeshCleanContentForMultilabelClassification.csv", encoding="utf-8-sig")
-    tag_list_df = pd.read_csv("./data/uniquetags/BangladeshTag.csv", encoding="utf-8-sig")
+    df = pd.read_csv("./data/content/bangladesh/BangladeshCleanContentForMultilabelClassificationSmall.csv", encoding="utf-8-sig")
+    tag_list_df = pd.read_csv("./data/uniquetags/BangladeshTagSmall.csv", encoding="utf-8-sig")
 elif configdf['TrainData'][0] == 'Economy':
-    df = pd.read_csv("./data/content/economy/EconomyCleanContentForMultilabelClassification.csv", encoding="utf-8-sig")
-    tag_list_df = pd.read_csv("./data/uniquetags/EconomyTag.csv", encoding="utf-8-sig")
+    df = pd.read_csv("./data/content/economy/EconomyCleanContentForMultilabelClassificationSmall.csv", encoding="utf-8-sig")
+    tag_list_df = pd.read_csv("./data/uniquetags/EconomyTagSmall.csv", encoding="utf-8-sig")
 elif configdf['TrainData'][0] == 'Entertainment':
-    df = pd.read_csv("./data/content/entertainment/EntertainmentCleanContentForMultilabelClassification.csv", encoding="utf-8-sig")
-    tag_list_df = pd.read_csv("./data/uniquetags/EntertainmentTag.csv", encoding="utf-8-sig")
+    df = pd.read_csv("./data/content/entertainment/EntertainmentCleanContentForMultilabelClassificationSmall.csv", encoding="utf-8-sig")
+    tag_list_df = pd.read_csv("./data/uniquetags/EntertainmentTagSmall.csv", encoding="utf-8-sig")
 elif configdf['TrainData'][0] == 'Technology':
-    df = pd.read_csv("./data/content/technology/TechnologyCleanContentForMultilabelClassification.csv", encoding="utf-8-sig")
-    tag_list_df = pd.read_csv("./data/uniquetags/TechnologyTag.csv", encoding="utf-8-sig")
+    df = pd.read_csv("./data/content/technology/TechnologyCleanContentForMultilabelClassificationSmall.csv", encoding="utf-8-sig")
+    tag_list_df = pd.read_csv("./data/uniquetags/TechnologyTagSmall.csv", encoding="utf-8-sig")
 else:
     print("Invalid Category")
 
@@ -43,16 +43,20 @@ print("Word embedding started.................")
 #count vectorizer
 x = df['content'].values
 
+print(x[0])
 vectorizer_model_load_path = "./model/TrainedModel/"+configdf['VectorName'][0]+"/"+configdf['TrainData'][0]+"/"\
-                             +str(configdf['Vectorsize'][0])+"/"+configdf['VectorName'][0]+".pkl"
+                             +str(configdf['Vectorsize'][0])+"/"+configdf['VectorName'][0]+"Small.pkl"
 print("Loaded Vectorizer Model:", vectorizer_model_load_path)
 countvectorizer_pkl_model = open(vectorizer_model_load_path, 'rb')
 countvectorizer_model = pickle.load(countvectorizer_pkl_model)
 article = DataFrame(countvectorizer_model.transform(x).todense(), columns=countvectorizer_model.get_feature_names())
+xasdasd= article.head(1)
+xasdasd.to_csv("article.csv", encoding="utf-8-sig")
+
 # tfidftransformer
 
 vector_transformer_model_load_path = "./model/TrainedModel/TfIdfTransformer/"+configdf['VectorName'][0]+\
-                      "/"+configdf['TrainData'][0]+"/"+str(configdf['Vectorsize'][0])+"/"+"TfIdfTransformer.pkl"
+                      "/"+configdf['TrainData'][0]+"/"+str(configdf['Vectorsize'][0])+"/"+"TfIdfTransformerSmall.pkl"
 
 print("Loaded Vector Transformer Model:", vector_transformer_model_load_path)
 tfidftransformer_pkl_model = open(vector_transformer_model_load_path, 'rb')
@@ -76,8 +80,11 @@ X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_
 
 # Fit into model
 numofneighbor = int(math.sqrt(X_train.shape[0]))
+if numofneighbor%2 ==0:
+    numofneighbor+=1
+
 print("Number of K:", numofneighbor)
-classifier = MLkNN(k=numofneighbor)
+classifier = MLkNN(k=63)
 
 start = timer()
 classifier.fit(X_train, y_train)
@@ -100,7 +107,7 @@ print("Training Completed.............")
 print("Start dumping pickle file...........")
 
 mlclf_model_save_location= "./model/TrainedModel/MultilabelClassifier/MLKNN/"+configdf['VectorName'][0]+\
-                           "/"+configdf['TrainData'][0]+"/"+str(configdf['Vectorsize'][0])+"/"+"MLKNNCLF.pkl"
+                           "/"+configdf['TrainData'][0]+"/"+str(configdf['Vectorsize'][0])+"/"+"MLKNNCLFSmall.pkl"
 
 pickle.dump(classifier, open(mlclf_model_save_location, "wb"))
 

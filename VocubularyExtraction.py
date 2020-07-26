@@ -38,6 +38,7 @@ dfvocab = pd.DataFrame(sorted_vocab_list, columns=['Vocabulary'])
 frequency = dfvocab['Vocabulary'].value_counts()
 
 vocab_series = pd.Series(frequency)
+print(vocab_series)
 
 vocab_series_top = vocab_series.nlargest(9000)
 
