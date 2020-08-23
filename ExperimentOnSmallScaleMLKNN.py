@@ -43,15 +43,12 @@ print("Word embedding started.................")
 #count vectorizer
 x = df['content'].values
 
-print(x[0])
 vectorizer_model_load_path = "./model/TrainedModel/"+configdf['VectorName'][0]+"/"+configdf['TrainData'][0]+"/"\
                              +str(configdf['Vectorsize'][0])+"/"+configdf['VectorName'][0]+"Small.pkl"
 print("Loaded Vectorizer Model:", vectorizer_model_load_path)
 countvectorizer_pkl_model = open(vectorizer_model_load_path, 'rb')
 countvectorizer_model = pickle.load(countvectorizer_pkl_model)
 article = DataFrame(countvectorizer_model.transform(x).todense(), columns=countvectorizer_model.get_feature_names())
-xasdasd= article.head(1)
-xasdasd.to_csv("article.csv", encoding="utf-8-sig")
 
 # tfidftransformer
 
@@ -84,7 +81,7 @@ if numofneighbor%2 ==0:
     numofneighbor+=1
 
 print("Number of K:", numofneighbor)
-classifier = MLkNN(k=63)
+classifier = MLkNN(k=numofneighbor)
 
 start = timer()
 classifier.fit(X_train, y_train)

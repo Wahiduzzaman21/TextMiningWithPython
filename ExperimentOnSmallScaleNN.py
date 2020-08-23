@@ -102,7 +102,7 @@ tf.config.experimental.set_memory_growth(physical_devices[0], True)
 model = tf.keras.Sequential()
 
 model = tf.keras.Sequential()
-model.add(tf.keras.layers.Dense(3000, input_shape=(24000,), trainable=False))
+model.add(tf.keras.layers.Dense(3000, input_shape=(configdf['Vectorsize'][0],), trainable=False))
 model.add(tf.keras.layers.Dense(9000,activation='relu'))
 model.add(tf.keras.layers.Dense(9000,activation='relu'))
 model.add(tf.keras.layers.Dense(9000,activation='sigmoid'))
