@@ -31,6 +31,9 @@ elif configdf['TrainData'][0] == 'Entertainment':
 elif configdf['TrainData'][0] == 'Technology':
     df = pd.read_csv("./data/content/technology/TechnologyCleanContentForMultilabelClassification.csv", encoding="utf-8-sig")
     tag_list_df = pd.read_csv("./data/uniquetags/TechnologyTag.csv", encoding="utf-8-sig")
+elif configdf['TrainData'][0] == 'Crime':
+    df = pd.read_csv("./data/content/crime/CrimeCleanContentForMultilabelClassification.csv", encoding="utf-8-sig")
+    tag_list_df = pd.read_csv("./data/uniquetags/CrimeTag.csv", encoding="utf-8-sig")
 else:
     print("Invalid Category")
 

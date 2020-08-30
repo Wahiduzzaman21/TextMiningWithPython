@@ -66,11 +66,9 @@ def postagging(df):
         each_text = []
         for x in content:
             if x[1] == 'NC':
-                text_lemmetize= lemmatizer.lemmatize(word=x[0], pos=lem.POS_NOUN)
-                each_text.append(text_lemmetize)
+                each_text.append(x[0])
             elif x[1] == 'NP':
-                text_lemmetize = lemmatizer.lemmatize(word=x[0], pos='proper_noun')
-                each_text.append(text_lemmetize)
+                each_text.append(x[0])
         all_content.append(each_text)
 
     return all_content

@@ -32,6 +32,10 @@ elif configdf['TrainData'][0] == 'Technology':
     df = pd.read_csv("./data/content/technology/TechnologyCleanContentForMultilabelClassification.csv",
                      encoding="utf-8-sig")
     tag_list_df = pd.read_csv("./data/uniquetags/TechnologyTag.csv", encoding="utf-8-sig")
+elif configdf['TrainData'][0] == 'Crime':
+    df = pd.read_csv("./data/content/crime/CrimeCleanContentForMultilabelClassification.csv",
+                     encoding="utf-8-sig")
+    tag_list_df = pd.read_csv("./data/uniquetags/CrimeTag.csv", encoding="utf-8-sig")
 else:
     print("Invalid Category")
 
@@ -100,10 +104,10 @@ tf.config.experimental.set_memory_growth(physical_devices[0], True)
 model = tf.keras.Sequential()
 
 model = tf.keras.Sequential()
-model.add(tf.keras.layers.Dense(3000, input_shape=(3000,), trainable=False))
-model.add(tf.keras.layers.Dense(9000,activation='relu'))
-model.add(tf.keras.layers.Dense(9000,activation='relu'))
-model.add(tf.keras.layers.Dense(9000,activation='sigmoid'))
+model.add(tf.keras.layers.Dense(1000, input_shape=(configdf['Vectorsize'][0],), trainable=False))
+model.add(tf.keras.layers.Dense(1500,activation='relu'))
+model.add(tf.keras.layers.Dense(1500,activation='relu'))
+model.add(tf.keras.layers.Dense(1500,activation='sigmoid'))
 model.add(tf.keras.layers.Dense(tag_list_df.count()))
 model.compile(optimizer='adam', loss=tf.losses.BinaryCrossentropy(from_logits=True), metrics=[f1_m,precision_m, recall_m])
 

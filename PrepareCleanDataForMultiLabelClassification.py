@@ -26,6 +26,8 @@ elif configdf['TrainData'][0] == 'Entertainment':
     df = pd.read_csv("./data/content/entertainment/AllEntertainmentContent.csv", encoding="utf-8-sig")
 elif configdf['TrainData'][0] == 'Technology':
     df = pd.read_csv("./data/content/technology/AllTechnologyContent.csv", encoding="utf-8-sig")
+elif configdf['TrainData'][0] == 'Crime':
+    df = pd.read_csv("./data/content/crime/AllCrimeContent.csv", encoding="utf-8-sig")
 else:
     print("Invalid Category")
 
@@ -71,6 +73,8 @@ elif configdf['TrainData'][0] == 'Entertainment':
     df.to_csv("./data/content/entertainment/EntertainmentCleanContentForMultilabelClassification.csv",encoding="utf-8-sig",index=False)
 elif configdf['TrainData'][0] == 'Technology':
     df.to_csv("./data/content/technology/TechnologyCleanContentForMultilabelClassification.csv",encoding="utf-8-sig",index=False)
+elif configdf['TrainData'][0] == 'Crime':
+    df.to_csv("./data/content/crime/CrimeCleanContentForMultilabelClassification.csv",encoding="utf-8-sig",index=False)
 else:
     print("Invalid Category")
 

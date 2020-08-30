@@ -19,6 +19,8 @@ elif configdf['TrainData'][0] == 'Entertainment':
     df = pd.read_csv("./data/content/entertainment/AllEntertainmentContent.csv", encoding="utf-8-sig")
 elif configdf['TrainData'][0] == 'Technology':
     df = pd.read_csv("./data/content/technology/AllTechnologyContent.csv", encoding="utf-8-sig")
+elif configdf['TrainData'][0] == 'Crime':
+    df = pd.read_csv("./data/content/crime/AllCrimeContent.csv", encoding="utf-8-sig")
 else:
     print("No valid category")
 
@@ -54,6 +56,8 @@ elif configdf['TrainData'][0] == 'Entertainment':
     vocab_series_top.to_csv("./data/vectordata/EntertainmentVector.csv", encoding="utf-8-sig", index_label='Vocabulary', header=['Count'])
 elif configdf['TrainData'][0] == 'Technology':
     vocab_series_top.to_csv("./data/vectordata/TechnologyVector.csv", encoding="utf-8-sig", index_label='Vocabulary', header=['Count'])
+elif configdf['TrainData'][0] == 'Crime':
+    vocab_series_top.to_csv("./data/vectordata/CrimeVector.csv", encoding="utf-8-sig", index_label='Vocabulary', header=['Count'])
 else:
     print("No valid category")
 
