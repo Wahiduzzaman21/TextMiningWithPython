@@ -32,6 +32,7 @@ data/content/international
 data/content/sports
 data/content/entertainment
 data/content/technology
+data/content/crime
 model/TrainedModel
 data/uniquetags
 data/vectordata
