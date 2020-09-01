@@ -1,7 +1,7 @@
 import pandas as pd
 from pandas import DataFrame
 from sklearn.metrics import accuracy_score, roc_auc_score
-from sklearn.metrics import f1_score, recall_score, precision_score
+from sklearn.metrics import f1_score, recall_score, precision_score, precision_recall_fscore_support
 from skmultilearn.adapt import MLkNN
 from sklearn.model_selection import train_test_split
 import pickle
@@ -98,6 +98,9 @@ print("Accuracy MLKNN: ", accuracy_score(y_test, predictions))
 print("Precision(Micro) MLKNN: ", precision_score(y_test, predictions, average='micro'))
 print("Recall(Micro) MLKNN: ", recall_score(y_test, predictions, average='micro'))
 print("F1 Score(Micro) MLKNN: ", f1_score(y_test, predictions, average='micro'))
+
+print("precision_recall_fscore_support MLKNN: ", precision_recall_fscore_support(y_test, predictions, average=None,zero_division='warn'))
+
 
 print("Training Completed.............")
 

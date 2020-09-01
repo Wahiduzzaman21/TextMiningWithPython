@@ -1,8 +1,8 @@
 import pandas as pd
 from DataProcessing import removepunctuation
-from DataProcessing import postagging
+from DataProcessing import postagging, postagging_crime
 from DataProcessing import removestopword
-from  DataProcessing import removespecialandrenglishchracter
+from DataProcessing import removespecialandrenglishchracter
 import collections
 
 configdf = pd.read_csv("config.csv")
@@ -26,7 +26,10 @@ else:
 
 
 df = removepunctuation(df)
-clean_text_v1 = postagging(df)
+if configdf['TrainData'][0] == 'Crime':
+    clean_text_v1 = postagging_crime(df)
+else:
+    clean_text_v1 = postagging(df)
 clean_text_v2 = removestopword(clean_text_v1)
 clean_text_v3 = removespecialandrenglishchracter(clean_text_v2)
 
@@ -42,7 +45,7 @@ frequency = dfvocab['Vocabulary'].value_counts()
 vocab_series = pd.Series(frequency)
 print(vocab_series)
 
-vocab_series_top = vocab_series.nlargest(9000)
+vocab_series_top = vocab_series.nlargest(24000)
 
 if configdf['TrainData'][0] == 'Sports':
     vocab_series_top.to_csv("./data/vectordata/SportsVector.csv", encoding="utf-8-sig", index_label='Vocabulary', header=['Count'])

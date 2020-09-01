@@ -1,12 +1,13 @@
 import pandas as pd
 from pandas import DataFrame
 from sklearn.metrics import accuracy_score
-from sklearn.metrics import f1_score, recall_score, precision_score, precision_recall_fscore_support
+from sklearn.metrics import f1_score, recall_score, precision_score, precision_recall_fscore_support, confusion_matrix
 from skmultilearn.adapt import MLkNN
 from sklearn.model_selection import train_test_split
 import pickle
 from timeit import default_timer as timer
 import math
+import  numpy as np
 
 
 print("Reading Config Started...............")
@@ -75,7 +76,7 @@ y = df.iloc[:, :-1].values
 print("Training Started.............")
 
 # Split Train and Test Data
-X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.01, random_state=0, shuffle=False)
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.20, random_state=42, shuffle=True)
 
 # Fit into model
 numofneighbor = int(math.sqrt(X_train.shape[0]))
@@ -101,6 +102,24 @@ print("Precision(Micro) MLKNN: ", precision_score(y_test, predictions, average='
 print("Recall(Micro) MLKNN: ", recall_score(y_test, predictions, average='micro'))
 print("F1 Score(Micro) MLKNN: ", f1_score(y_test, predictions, average='micro'))
 
+
+print("precision_recall_fscore_support MLKNN: ", precision_recall_fscore_support(y_test, predictions, average=None,zero_division='warn'))
+
+
+
+predictions_nd = np.zeros(y_test.shape)
+
+predictions_nd = predictions.A
+predictions_nd = predictions.todense()
+print("Predictions")
+print(predictions_nd)
+print("Original")
+print(y_test)
+
+print("Confusion MLKNN: ", confusion_matrix(y_test.argmax(axis=1), predictions_nd.argmax(axis=1)))
+
+
+
 print("Training Completed.............")
 
 print("Start dumping pickle file...........")
@@ -109,6 +128,4 @@ mlclf_model_save_location= "./model/TrainedModel/MultilabelClassifier/MLKNN/"+co
                            "/"+configdf['TrainData'][0]+"/"+str(configdf['Vectorsize'][0])+"/"+"MLKNNCLF.pkl"
 
 pickle.dump(classifier, open(mlclf_model_save_location, "wb"))
-
-
 print("Pickle Dumping Completed.............")

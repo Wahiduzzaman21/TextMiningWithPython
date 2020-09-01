@@ -73,6 +73,37 @@ def postagging(df):
 
     return all_content
 
+def postagging_all(df):
+    bn_pos = BN_CRF_POS()
+    model_path = "./model/bn_pos_model.pkl"
+    all_content = []
+
+    for index in df.index:
+        content = df['content'][index]
+        content = bn_pos.pos_tag(model_path, content)
+        each_text = []
+        for x in content:
+            each_text.append(x[0])
+        all_content.append(each_text)
+
+    return all_content
+
+
+def postagging_crime(df):
+    bn_pos = BN_CRF_POS()
+    model_path = "./model/bn_pos_model.pkl"
+    all_content = []
+
+    for index in df.index:
+        content = df['content'][index]
+        content = bn_pos.pos_tag(model_path, content)
+        each_text = []
+        for x in content:
+            each_text.append(x[0])
+        all_content.append(each_text)
+
+    return all_content
+
 
 def removestopword(all_content):
     with open("./data/stopwords.txt", encoding="utf-8") as file_in:

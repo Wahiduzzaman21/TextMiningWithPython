@@ -2,7 +2,7 @@ import pandas as pd
 from DataProcessing import extractuniquetags
 from DataProcessing import performhotencoding
 from DataProcessing import removepunctuation
-from DataProcessing import postagging
+from DataProcessing import postagging, postagging_crime
 from DataProcessing import removestopword
 from  DataProcessing import removespecialandrenglishchracter
 from DataProcessing import joinseparatedtext
@@ -42,6 +42,7 @@ dfonehotencoding = performhotencoding(df, tag_list)
 start = timer()
 
 df = removepunctuation(df)
+
 clean_text_v1 = postagging(df)
 clean_text_v2 = removestopword(clean_text_v1)
 clean_text_v3 = removespecialandrenglishchracter(clean_text_v2)
@@ -57,6 +58,8 @@ df = df2.join(df1)
 df.replace("", np.nan, inplace=True)
 df['content'] = df['content'].fillna('contentblank')
 df = df[~df['content'].str.contains("contentblank")]
+
+
 print("Data Cleaning Completed.........")
 
 print("Writing Clean Data in File Started................")
