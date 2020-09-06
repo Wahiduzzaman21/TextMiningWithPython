@@ -23,8 +23,6 @@ elif configdf['TrainData'][0] == 'Entertainment':
     df = pd.read_csv("./data/content/entertainment/EntertainmentCleanContentForMultilabelClassification.csv", encoding="utf-8-sig")
 elif configdf['TrainData'][0] == 'Technology':
     df = pd.read_csv("./data/content/technology/TechnologyCleanContentForMultilabelClassification.csv", encoding="utf-8-sig")
-elif configdf['TrainData'][0] == 'Crime':
-    df = pd.read_csv("./data/content/crime/CrimeCleanContentForMultilabelClassification.csv", encoding="utf-8-sig")
 else:
     print("No valid category")
 
@@ -46,8 +44,6 @@ elif configdf['TrainData'][0] == 'Entertainment':
     dfvocablist =  pd.read_csv("./data/vectordata/EntertainmentVector.csv", encoding="utf-8-sig")
 elif configdf['TrainData'][0] == 'Technology':
     dfvocablist =  pd.read_csv("./data/vectordata/TechnologyVector.csv", encoding="utf-8-sig")
-elif configdf['TrainData'][0] == 'Crime':
-    dfvocablist =  pd.read_csv("./data/vectordata/CrimeVector.csv", encoding="utf-8-sig")
 else:
     print("No valid category")
 

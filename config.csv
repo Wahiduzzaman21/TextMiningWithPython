@@ -1,2 +1,2 @@
 TrainData,VectorName,Vectorsize,TotalSportsTags,TotalInternationalTags,TotalBangladeshTags,TotalEconomyTags,TotalEntertainmentTags,TotalTechnologyTags
-Crime,TfIdfVectorizer,300,511,546,2001,519,334,391
+Sports,TfIdfVectorizer,3000,511,546,2001,519,334,391
