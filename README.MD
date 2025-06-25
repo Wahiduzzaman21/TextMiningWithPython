@@ -8,4 +8,3 @@
 6. PrepareCleanDataForMultiLabelClassification for all category (change category from config.csv after completion of each category) - Prepare clean for to fit for Multilabel classification model
 7. Run Multilabel classification model for each category indivually and indivual pickle file will be created
 
-Thanks
